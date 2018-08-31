@@ -14,7 +14,7 @@ var game_db = new Phaser.Data.DataManager(game);
 function preload() {
     this.load.setBaseURL('https://avoidthebugs.herokuapp.com')
     this.load.image('sky', 'static/images/sky.png')
-
+    this.load.image('ground', 'static/images/platform.png')
 }
 
 function create() {
