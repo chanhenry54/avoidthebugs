@@ -4,7 +4,7 @@ import pyrebase
 config = {
     'apikey': 'AIzaSyBOuRNJdvdbb2x0qFWVHpZxbfiHS60EL5U',
     'authDomain': 'avoidthebugs-b6e6e.firebaseapp.com',
-    'databaseUR'L: "https://avoidthebugs-b6e6e.firebaseio.com",
+    'databaseURL': "https://avoidthebugs-b6e6e.firebaseio.com",
     'projectId': "avoidthebugs-b6e6e",
     'storageBucket': "avoidthebugs-b6e6e.appspot.com",
     'messagingSenderId': "704938442068"
