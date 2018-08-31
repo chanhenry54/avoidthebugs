@@ -13,6 +13,7 @@ $('#g_login').click(function() {
 
         $.cookie('uid', uid);
         $.cookie('dname', name);
+        $.cookie('edate', user.stsTokenManager.expirationTime);
     }).catch(function(error) {
         var errorCode = error.code;
         var errorMsg = error.message;
@@ -20,3 +21,9 @@ $('#g_login').click(function() {
         console.log(errorCode + ': ' + errorMsg);
     });
 });
+
+function epochNow() {}
+    
+}
+
+if ($.cookie('edate'))
