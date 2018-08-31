@@ -17,7 +17,7 @@ var config = {
 	canvas: 'game-area'
 };
 
-var game = new Phaser.Game(config);
+var game;
 var game_db = new Phaser.Data.DataManager(game);
 var platforms;
 
@@ -34,3 +34,12 @@ function create() {
 	
 	platforms.create(400, 568, 'ground').setScale(2).refreshBody();
 }
+
+function update() {
+    
+}
+
+// Must be an indicator from github.js that we can start the game.
+$('#gameplay').on('show', function() {
+    game = new Phaser.Game(config);
+});

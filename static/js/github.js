@@ -14,6 +14,9 @@ $('#g_login').click(function() {
         $.cookie('uid', uid);
         $.cookie('dname', name);
         $.cookie('edate', user.stsTokenManager.expirationTime);
+
+        $('#auth').hide();
+        $('#gameplay').show();
     }).catch(function(error) {
         var errorCode = error.code;
         var errorMsg = error.message;
@@ -22,8 +25,18 @@ $('#g_login').click(function() {
     });
 });
 
-function epochNow() {}
-    
+function loggedIn() {
+    var expir = $.cookie('edate');
+    if (expir == null) {
+        return false;
+    } else {
+        var current = Date.now();
+        return not ((current - expir) > 0);
+    }
 }
 
-if ($.cookie('edate'))
+if (loggedIn()) {
+    // session good i guess.
+    $('#auth').hide();
+    $('#gameplay').show();
+}
