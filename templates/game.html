@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Play - Avoid the</title>
+		<title>Play - Avoid the Bugs</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
@@ -41,18 +41,16 @@
 					<div id="main">
 
 						<!-- Post -->
-							<section class="post" id="unauth">
+							<section class="post">
 								<header class="major">
-									<span class="date">HOW TO PLAY?</span>
-									<h2><a href="#">And this is a<br />
-									massive headline</a></h2>
-									<p>Aenean ornare velit lacus varius enim ullamcorper proin aliquam<br />
-									facilisis ante sed etiam magna interdum congue. Lorem ipsum dolor<br />
-									amet nullam sed etiam veroeros.</p>
+									<span class="date">LOGIN</span>
+									<h1>USER<br />
+									AUTHENTICATION</h1>
+									<p>In order to play, you must login through Github so that your scores can be accessed and saved onto the servers.</p>
 								</header>
-								<a href="#" class="image main"><img src="images/pic01.jpg" alt="" /></a>
+								<div class="image main"><img src="images/pic01.jpg" alt="" /></div>
 								<ul class="actions special">
-									<li><a href="#" class="button large">Full Story</a></li>
+									<li><a href="#" class="button large" id='g_login'>Login to Github</a></li>
 								</ul>
 							</section>
 
@@ -73,8 +71,29 @@
 		<script src="{{ url_for('static', filename='js/breakpoints.min.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/util.js') }}"></script>
 		<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+		
+		<script src="{{ url_for('static', filename='js/jquery.cookies.js') }}"></script>
 
+		<script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-auth.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-database.js"></script>
+
+		<script>
+			// Initialize Firebase
+			var config = {
+				apiKey: "AIzaSyBOuRNJdvdbb2x0qFWVHpZxbfiHS60EL5U",
+				authDomain: "avoidthebugs-b6e6e.firebaseapp.com",
+				databaseURL: "https://avoidthebugs-b6e6e.firebaseio.com",
+				projectId: "avoidthebugs-b6e6e",
+				storageBucket: "avoidthebugs-b6e6e.appspot.com",
+				messagingSenderId: "704938442068"
+			};
+			firebase.initializeApp(config);
+		</script>
+
+		<script src="{{ url_for('static', filename='js/github.js') }}"></script>
+		
 		<script rel="preload" src="https://cdn.jsdelivr.net/npm/phaser@3.0.0/dist/phaser.min.js" as="script"></script>
-		<script src="{{ url_for('static', filename='js/player.js') }}"></script>
+		<!--<script src="{{ url_for('static', filename='js/player.js') }}"></script>-->
 	</body>
 </html>
