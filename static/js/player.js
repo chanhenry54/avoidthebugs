@@ -13,7 +13,8 @@ var config = {
         preload: preload,
         create: create
 		update: update
-    }
+    },
+	canvas: 'game-area'
 };
 
 var game = new Phaser.Game(config);
