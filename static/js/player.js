@@ -10,8 +10,8 @@ var config = {
         }
     },
     scene: {
-        preload = preload,
-        create = create
+        preload: preload,
+        create: create
     }
 }
 
