@@ -1,4 +1,3 @@
-console.log(Phaser.AUTO);
 var config = {
     type: Phaser.AUTO,
     width: 800,
@@ -16,9 +15,7 @@ var config = {
 }
 
 var game = new Phaser.Game(config);
-
-var game_ev = new Phaser.Events.EventEmitter();
-var game_db = new Phaser.Data.DataManager(game, game_ev);
+var game_db = new Phaser.Data.DataManager(game);
 
 function preload() {
     this.load.setBaseURL('https://avoidthebugs.herokuapp.com')
@@ -26,6 +23,5 @@ function preload() {
 }
 
 function create() {
-    game_db.set('test', 0);
-    console.log(game_db.get('test'));
+    
 }

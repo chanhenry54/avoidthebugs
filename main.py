@@ -12,4 +12,4 @@ def gamePage(): return render_template('game.html')
 def creditsPage(): return render_template('credits.html')
 
 if __name__ == '__main__':
-    app.run(port=5000,debug=False)
+    app.run(port=5002,debug=False)
