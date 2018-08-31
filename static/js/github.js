@@ -9,7 +9,7 @@ $('#g_login').click(function() {
         console.log(JSON.stringify(user));
         var uid = user.uid;
         var name = user.providerData[0].displayName;
-        if (name == null) { name = uid; }
+        if (name == null) { name = user.providerData[0].uid; }
 
         $.cookie('uid', uid);
         $.cookie('dname', name);
