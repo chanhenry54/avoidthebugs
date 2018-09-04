@@ -80,6 +80,9 @@ jump = {
 }
 
 bugs = []
+
+collided = False
+
 lastCreated = time.time() # keep a variable to store the last time that we've created a bug, we want to give the player a small rest before another bug comes rushing in.
 
 started = False # Will turn True once the player hits space as an indicator to go.
@@ -103,7 +106,7 @@ while True:
         # Draw the sprites onto the screen through blit.
 
         groundY = base_y - ground.get_size()[1]
-        scrn.blit(images['gary'], (25, groundY+jump['height']))
+        Gary = scrn.blit(images['gary'], (25, groundY+jump['height']))
         if jump['isJumping']:
             if jump['height'] <= -190 or jump['falling']:
                 jump['falling'] = True
@@ -139,6 +142,14 @@ while True:
                 else:
                     bug.x -= random.uniform(bug.speed[0], bug.speed[1])
                     bugS = scrn.blit(bug.image, (bug.x, groundY))
+                    if bugS.colliderect(Gary) and not collided:
+                        collided = True
+                        started = False
+                        bugs = []
+                        jump['falling'] = False
+                        jump['height'] = 0
+                        jump['isJumping'] = False
+                        state = 2
                     # check for collision through "bugS"
             
             score += 0.025
@@ -149,7 +160,17 @@ while True:
         scrn.blit(ground, (0, base_y + ground.get_size()[1]))
     elif state == 2:
         # game over
-        pass
+        scrn.blit(images['gameover'], (playRect.x - 120, playRect.y - 250))
+        resultS = mcFont.render('FINAL SCORE: ' + str(int(score)), False, (0, 0, 0))
+        scrn.blit(resultS, (playRect.x + 50, playRect.y))
+
+        restartS = mcFont.render('Press SPACE to return to the menu!', False, (0, 0, 0))
+        scrn.blit(restartS, (playRect.x - 60, playRect.y + 150))
+
+        pygame.time.delay(1500)
+        if pygame.key.get_pressed()[pygame.K_SPACE]:
+            collided = False
+            state = 0
     
     # update graphics
     pygame.display.flip()
