@@ -96,6 +96,10 @@ while True:
             if playRect.collidepoint(pos) and state == 0:
                 state = 1
                 score = 0
+        elif ev.type == pygame.KEYDOWN:
+            if ev.key == pygame.K_SPACE and state == 2:
+                collided = False
+                state = 0
     
     scrn.blit(images['sky'], (0, 0))
 
@@ -170,11 +174,6 @@ while True:
 
         restartS = mcFont.render('Press SPACE to return to the menu!', False, (0, 0, 0))
         scrn.blit(restartS, (playRect.x - 60, playRect.y + 150))
-
-        pygame.time.delay(1500)
-        if pygame.key.get_pressed()[pygame.K_SPACE]:
-            collided = False
-            state = 0
     
     # update graphics
     pygame.display.flip()
