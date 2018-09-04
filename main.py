@@ -100,6 +100,9 @@ while True:
     scrn.blit(images['sky'], (0, 0))
 
     if (state == 0):
+        creditS = mcFont.render('Game developed by Jeffrey H. & Henry C.', False, (0, 0, 0))
+        scrn.blit(creditS, (playRect.x - 90, playRect.y + 160))
+        
         scrn.blit(images['titleimg'], (playRect.x - 250, playRect.y - 250))
         scrn.blit(images['playbtn'], (playRect.x, playRect.y))
     elif (state == 1):
@@ -108,7 +111,7 @@ while True:
         groundY = base_y - ground.get_size()[1]
         Gary = scrn.blit(images['gary'], (25, groundY+jump['height']))
         if jump['isJumping']:
-            if jump['height'] <= -190 or jump['falling']:
+            if jump['height'] <= -250 or jump['falling']:
                 jump['falling'] = True
 
                 if jump['height'] >= 0:
@@ -142,6 +145,8 @@ while True:
                 else:
                     bug.x -= random.uniform(bug.speed[0], bug.speed[1])
                     bugS = scrn.blit(bug.image, (bug.x, groundY))
+
+                    # check for collision through "bugS"
                     if bugS.colliderect(Gary) and not collided:
                         collided = True
                         started = False
@@ -150,7 +155,6 @@ while True:
                         jump['height'] = 0
                         jump['isJumping'] = False
                         state = 2
-                    # check for collision through "bugS"
             
             score += 0.025
         else:
