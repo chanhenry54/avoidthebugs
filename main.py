@@ -1,10 +1,12 @@
 import pygame
 import sys
 import os
+import time
+import random
 # https://www.pygame.org/docs/tut/PygameIntro.html
 
-pygame.init()  # initialize the display window
-pygame.mixer.init()  # initialize the module that plays sounds
+pygame.init() # initialize the display window
+pygame.mixer.init() # initialize the module that plays sounds
 
 size = (width, height) = (800, 450)
 scrn = pygame.display.set_mode(size)
@@ -31,6 +33,7 @@ pygame.display.set_icon(images['appicon'])
 mcFont = pygame.font.Font('assets/fonts/Minecraft.ttf', 24)
 
 images['gary'] = pygame.transform.scale(images['gary'], (64, 64))
+images['bug'] = pygame.transform.scale(images['bug'], (64, 64))
 images['platform'] = ground = pygame.transform.scale(images['platform'], (width, images['platform'].get_size()[1]))
 
 playRect = pygame.Rect((width-300)//2,(height+70)//2,300,120)
@@ -42,15 +45,35 @@ images['sky'] = pygame.transform.scale(images['sky'], size)
 state = 0 # 0: MENU, 1: PLAY, 2: RESULTS
 score = 0 # increments as time passes
 
-class Bug(pygame.sprite.Sprite):
-    x = 0
-    def __init__(self):
+class Bug(pygame.sprite.Sprite): # inherit base sprite class
+    def __init__(self, speed):
         pygame.sprite.Sprite.__init__(self)
 
         self.image = images['bug']
-        x = width + self.image.get_size()[0] # making sure the starting x-pos is outside of the screen
+        self.x = width + self.image.get_size()[0] # making sure the starting x-pos is outside of the screen
+        self.speed = speed
 
         self.rect = self.image.get_rect()
+
+def getMaxBugs(score):
+    info = {}
+    if score <= 150:
+        info['max'] = 1
+        info['speed'] = (0.3, 0.5)
+    elif score > 150 and score <= 300:
+        info['max'] = 2
+        info['speed'] = (0.5, 0.75)
+    elif score > 300 and score <= 750:
+        info['max'] = 3
+        info['speed'] = (0.75, 1)
+    elif score > 750 and score <= 1500:
+        info['max'] = 4
+        info['speed'] = (0.75, 1.2)
+    else:
+        info['max'] = 5
+        info['speed'] = (0.8, 1.5)
+    
+    return info
 
 jump = {
     'isJumping': False,
@@ -59,6 +82,8 @@ jump = {
 }
 
 bugs = []
+
+lastCreated = time.time()
 
 started = False # Will turn True once the player hits space as an indicator to go.
 while True:
@@ -83,7 +108,7 @@ while True:
         groundY = base_y - ground.get_size()[1]
         scrn.blit(images['gary'], (25, groundY+jump['height']))
         if jump['isJumping']:
-            if jump['height'] <= -150 or jump['falling']:
+            if jump['height'] <= -190 or jump['falling']:
                 jump['falling'] = True
 
                 if jump['height'] >= 0:
@@ -91,9 +116,9 @@ while True:
                     jump['falling'] = False
                     jump['height'] = 0
                 else:
-                    jump['height'] += 1.5
+                    jump['height'] += 1
             else:
-                jump['height'] -= 1.5
+                jump['height'] -= 1
 
         if pygame.key.get_pressed()[pygame.K_SPACE] and not jump['isJumping']:
             jump['isJumping'] = True
@@ -104,10 +129,22 @@ while True:
             scoreS = mcFont.render('SCORE: ' + str(int(score)), False, (0, 0, 0))
             scrn.blit(scoreS, (5, 5))
             
+            details = getMaxBugs(score)
+            if len(bugs) < details['max']:
+                now = time.time()
+                if (now - lastCreated) > random.uniform(0.5, 0.8):
+                    lastCreated = now
+                    bugs.append(Bug(details['speed']))
             
-
-            score += 0.01
-
+            for bug in bugs:
+                if bug.x < (bug.image.get_size()[0] * -1):
+                    bugs.remove(bug)
+                else:
+                    bug.x -= random.uniform(bug.speed[0], bug.speed[1])
+                    bugS = scrn.blit(bug.image, (bug.x, groundY))
+                    # check for collision through "bugS"
+            
+            score += 0.025
 
         scrn.blit(ground, (0, base_y + ground.get_size()[1]))
     
