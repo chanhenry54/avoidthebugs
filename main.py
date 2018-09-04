@@ -100,6 +100,9 @@ while True:
     scrn.blit(images['sky'], (0, 0))
 
     if (state == 0):
+        creditS = mcFont.render('Game developed by Jeffrey H. & Henry C.', False, (0, 0, 0))
+        scrn.blit(creditS, (playRect.x - 90, playRect.y + 160))
+        
         scrn.blit(images['titleimg'], (playRect.x - 250, playRect.y - 250))
         scrn.blit(images['playbtn'], (playRect.x, playRect.y))
     elif (state == 1):
