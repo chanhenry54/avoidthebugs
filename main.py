@@ -53,8 +53,6 @@ class Bug(pygame.sprite.Sprite): # inherit base sprite class
         self.x = width + self.image.get_size()[0] # making sure the starting x-pos is outside of the screen
         self.speed = speed
 
-        self.rect = self.image.get_rect()
-
 def getMaxBugs(score):
     info = {}
     if score <= 150:
