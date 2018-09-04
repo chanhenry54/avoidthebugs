@@ -80,8 +80,7 @@ jump = {
 }
 
 bugs = []
-
-lastCreated = time.time()
+lastCreated = time.time() # keep a variable to store the last time that we've created a bug, we want to give the player a small rest before another bug comes rushing in.
 
 started = False # Will turn True once the player hits space as an indicator to go.
 while True:
@@ -143,6 +142,9 @@ while True:
                     # check for collision through "bugS"
             
             score += 0.025
+        else:
+            scoreS = mcFont.render('Press SPACE to start!', False, (0, 0, 0))
+            scrn.blit(scoreS, (5, 5))
 
         scrn.blit(ground, (0, base_y + ground.get_size()[1]))
     
