@@ -33,7 +33,7 @@ pygame.display.set_icon(images['appicon'])
 mcFont = pygame.font.Font('assets/fonts/Minecraft.ttf', 24)
 
 images['gary'] = pygame.transform.scale(images['gary'], (64, 64))
-images['bug'] = pygame.transform.scale(images['bug'], (64, 64))
+images['bug'] = pygame.transform.scale(images['bug'], (48, 48))
 images['platform'] = ground = pygame.transform.scale(images['platform'], (width, images['platform'].get_size()[1]))
 
 playRect = pygame.Rect((width-300)//2,(height+70)//2,300,120)
@@ -148,7 +148,7 @@ while True:
                     bugs.remove(bug)
                 else:
                     bug.x -= random.uniform(bug.speed[0], bug.speed[1])
-                    bugS = scrn.blit(bug.image, (bug.x, groundY))
+                    bugS = scrn.blit(bug.image, (bug.x, groundY+16))
 
                     # check for collision through "bugS"
                     if bugS.colliderect(Gary) and not collided:
