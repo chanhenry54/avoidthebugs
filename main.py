@@ -147,6 +147,9 @@ while True:
             scrn.blit(scoreS, (5, 5))
 
         scrn.blit(ground, (0, base_y + ground.get_size()[1]))
+    elif state == 2:
+        # game over
+        pass
     
     # update graphics
     pygame.display.flip()
