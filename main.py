@@ -1,8 +1,10 @@
-import pygame,sys,os
+import pygame
+import sys
+import os
 # https://www.pygame.org/docs/tut/PygameIntro.html
 
-pygame.init() # initialize the display window
-pygame.mixer.init() # initialize the module that plays sounds
+pygame.init()  # initialize the display window
+pygame.mixer.init()  # initialize the module that plays sounds
 
 size = (width, height) = (800, 450)
 scrn = pygame.display.set_mode(size)
@@ -10,26 +12,23 @@ scrn = pygame.display.set_mode(size)
 base_y = height-100
 
 def get_files(dir):
-    files = []
-
-    for (dirpath, dirname, filenames) in os.walk(dir):
-        files = filenames
-        break
-    
-    return files
+    for (_, _, filenames) in os.walk(dir):
+        return filenames
 
 images = {}
 for file in get_files('assets/images/'):
-    images[os.path.splitext(file)[0]] = pygame.image.load('assets/images/' + file)
+    name = os.path.splitext(file)[0]
+    images[name] = pygame.image.load('assets/images/' + file)
 
 sfx = {}
 for file in get_files('assets/sfx/'):
-    sfx[os.path.splitext(file)[0]] = pygame.mixer.Sound('assets/sfx/' + file)
+    name = os.path.splitext(file)[0]
+    sfx[name] = pygame.mixer.Sound('assets/sfx/' + file)
 
 pygame.display.set_caption('Avoid the Bugs')
 pygame.display.set_icon(images['appicon'])
 
-mcFont = pygame.font.Font('assets/fonts/Minecraft.ttf', 24) # load in the custom font.
+mcFont = pygame.font.Font('assets/fonts/Minecraft.ttf', 24)
 
 images['gary'] = pygame.transform.scale(images['gary'], (64, 64))
 images['platform'] = ground = pygame.transform.scale(images['platform'], (width, images['platform'].get_size()[1]))
@@ -41,13 +40,25 @@ images['titleimg'] = pygame.transform.scale(images['titleimg'], (798, 242))
 images['sky'] = pygame.transform.scale(images['sky'], size)
 
 state = 0 # 0: MENU, 1: PLAY, 2: RESULTS
-score = 0
+score = 0 # increments as time passes
+
+class Bug(pygame.sprite.Sprite):
+    x = 0
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = images['bug']
+        x = width + self.image.get_size()[0] # making sure the starting x-pos is outside of the screen
+
+        self.rect = self.image.get_rect()
 
 jump = {
     'isJumping': False,
     'falling': False,
     'height': 0
 }
+
+bugs = []
 
 started = False # Will turn True once the player hits space as an indicator to go.
 while True:
@@ -68,9 +79,6 @@ while True:
         scrn.blit(images['playbtn'], (playRect.x, playRect.y))
     elif (state == 1):
         # Draw the sprites onto the screen through blit.
-
-        scoreS = mcFont.render('SCORE: ' + str(score), False, (0, 0, 0))
-        scrn.blit(scoreS, (5, 5))
 
         groundY = base_y - ground.get_size()[1]
         scrn.blit(images['gary'], (25, groundY+jump['height']))
@@ -93,7 +101,13 @@ while True:
             if not started: started = True
         
         if started:
-            pass
+            scoreS = mcFont.render('SCORE: ' + str(int(score)), False, (0, 0, 0))
+            scrn.blit(scoreS, (5, 5))
+            
+            
+
+            score += 0.01
+
 
         scrn.blit(ground, (0, base_y + ground.get_size()[1]))
     
