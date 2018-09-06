@@ -11,6 +11,8 @@ pygame.mixer.init() # initialize the module that plays sounds
 size = (width, height) = (800, 450)
 scrn = pygame.display.set_mode(size)
 
+highScore = 0
+
 base_y = height-100
 
 def get_files(dir):
@@ -139,7 +141,7 @@ while True:
             details = getMaxBugs(score)
             if len(bugs) < details['max']:
                 now = time.time()
-                if (now - lastCreated) > random.uniform(0.6, 1.1):
+                if (now - lastCreated) > random.uniform(0.6, 1.25):
                     lastCreated = now
                     bugs.append(Bug(details['speed']))
             
@@ -158,6 +160,8 @@ while True:
                         jump['falling'] = False
                         jump['height'] = 0
                         jump['isJumping'] = False
+
+                        if score > highScore: highScore = score
                         state = 2
             
             score += 0.025
@@ -171,6 +175,9 @@ while True:
         scrn.blit(images['gameover'], (playRect.x - 120, playRect.y - 250))
         resultS = mcFont.render('FINAL SCORE: ' + str(int(score)), False, (0, 0, 0))
         scrn.blit(resultS, (playRect.x + 50, playRect.y))
+
+        hS = mcFont.render('HIGH SCORE: ' + str(int(highScore)), False, (0, 0, 0))
+        scrn.blit(hS, (playRect.x + 50, playRect.y + 50))
 
         restartS = mcFont.render('Press SPACE to return to the menu!', False, (0, 0, 0))
         scrn.blit(restartS, (playRect.x - 60, playRect.y + 150))
