@@ -163,6 +163,8 @@ while True:
 
                         if score > highScore: highScore = score
                         state = 2
+                        
+                        break
             
             score += 0.025
         else:
