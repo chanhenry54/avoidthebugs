@@ -148,6 +148,10 @@ while True:
         if started:
             scoreS = mcFont.render('SCORE: ' + str(int(score)), False, (0, 0, 0))
             scrn.blit(scoreS, (5, 5))
+
+            if score > highScore: highScore = score
+            hS = mcFont.render('HIGH SCORE: ' + str(int(highScore)), False, (0, 0, 0))
+            scrn.blit(hS, (5, 32))
             
             details = getMaxBugs(score)
             if len(bugs) < details['max']:
@@ -172,12 +176,11 @@ while True:
                         jump['height'] = 0
                         jump['isJumping'] = False
                         sfx['explode'].play()
-                        if score > highScore: highScore = score
                         state = 2
                         
                         break
             
-            score += 0.025
+            if started: score += 0.025 # make sure the player is still alive before we increment the score.
         else:
             scoreS = mcFont.render('Press SPACE to start!', False, (0, 0, 0))
             scrn.blit(scoreS, (5, 5))
