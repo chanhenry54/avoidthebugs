@@ -24,8 +24,17 @@ for file in get_files('assets/images/'):
 
 sfx = {}
 for file in get_files('assets/sfx/'):
-    name = os.path.splitext(file)[0]
-    sfx[name] = pygame.mixer.Sound('assets/sfx/' + file)
+    info = os.path.splitext(file)
+    
+    name = info[0]
+    ext = info[1]
+
+    path = 'assets/sfx/' + file
+    
+    if ext == '.ogg':
+        pygame.mixer.music.load(path)
+    else:
+        sfx[name] = pygame.mixer.Sound(path)
 
 pygame.display.set_caption('Avoid the Bugs')
 pygame.display.set_icon(images['appicon'])
@@ -33,7 +42,7 @@ pygame.display.set_icon(images['appicon'])
 mcFont = pygame.font.Font('assets/fonts/Minecraft.ttf', 24)
 
 images['gary'] = pygame.transform.scale(images['gary'], (64, 64))
-images['bug'] = pygame.transform.scale(images['bug'], (48, 48))
+images['bug'] = pygame.transform.scale(images['bug'], (32, 32))
 images['platform'] = ground = pygame.transform.scale(images['platform'], (width, images['platform'].get_size()[1]))
 
 playRect = pygame.Rect((width-300)//2,(height+70)//2,300,120)
@@ -57,19 +66,19 @@ def getMaxBugs(score):
     info = {}
     if score <= 150:
         info['max'] = 1
-        info['speed'] = (0.3, 0.5)
+        info['speed'] = (0.3, 0.4)
     elif score > 150 and score <= 300:
         info['max'] = 2
-        info['speed'] = (0.5, 0.75)
+        info['speed'] = (0.3, 0.6)
     elif score > 300 and score <= 750:
         info['max'] = 3
-        info['speed'] = (0.75, 1)
+        info['speed'] = (0.3, 0.8)
     elif score > 750 and score <= 1500:
         info['max'] = 4
-        info['speed'] = (0.75, 1.2)
+        info['speed'] = (0.6, 1.0)
     else:
         info['max'] = 5
-        info['speed'] = (0.8, 1.5)
+        info['speed'] = (0.6, 1.5)
     
     return info
 
@@ -84,6 +93,8 @@ bugs = []
 collided = False
 
 lastCreated = time.time() # keep a variable to store the last time that we've created a bug, we want to give the player a small rest before another bug comes rushing in.
+
+pygame.mixer.music.play(-1) # -1 meaning the music will repeat indefinitely.
 
 started = False # Will turn True once the player hits space as an indicator to go.
 while True:
@@ -139,7 +150,7 @@ while True:
             details = getMaxBugs(score)
             if len(bugs) < details['max']:
                 now = time.time()
-                if (now - lastCreated) > random.uniform(0.5, 0.8):
+                if (now - lastCreated) > random.uniform(0.6, 1.1):
                     lastCreated = now
                     bugs.append(Bug(details['speed']))
             
@@ -148,7 +159,7 @@ while True:
                     bugs.remove(bug)
                 else:
                     bug.x -= random.uniform(bug.speed[0], bug.speed[1])
-                    bugS = scrn.blit(bug.image, (bug.x, groundY+16))
+                    bugS = scrn.blit(bug.image, (bug.x, groundY+32))
 
                     # check for collision through "bugS"
                     if bugS.colliderect(Gary) and not collided:
@@ -158,6 +169,7 @@ while True:
                         jump['falling'] = False
                         jump['height'] = 0
                         jump['isJumping'] = False
+                        sfx['explode'].play()
                         state = 2
             
             score += 0.025
