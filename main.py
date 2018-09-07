@@ -71,16 +71,16 @@ def getMaxBugs(score):
         info['speed'] = (0.3, 0.4)
     elif score > 150 and score <= 300:
         info['max'] = 2
-        info['speed'] = (0.3, 0.6)
+        info['speed'] = (0.3, 0.65)
     elif score > 300 and score <= 750:
         info['max'] = 3
-        info['speed'] = (0.3, 0.8)
+        info['speed'] = (0.3, 0.85)
     elif score > 750 and score <= 1500:
         info['max'] = 4
-        info['speed'] = (0.6, 1.0)
+        info['speed'] = (0.75, 1.0)
     else:
         info['max'] = 5
-        info['speed'] = (0.6, 1.5)
+        info['speed'] = (0.75, 1.5)
     
     return info
 
@@ -128,7 +128,7 @@ while True:
         groundY = base_y - ground.get_size()[1]
         Gary = scrn.blit(images['gary'], (25, groundY+jump['height']))
         if jump['isJumping']:
-            if jump['height'] <= -250 or jump['falling']:
+            if jump['height'] <= -255 or jump['falling']:
                 jump['falling'] = True
 
                 if jump['height'] >= 0:
