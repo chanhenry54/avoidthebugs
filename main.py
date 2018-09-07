@@ -77,10 +77,13 @@ def getMaxBugs(score):
         info['speed'] = (0.3, 0.85)
     elif score > 750 and score <= 1500:
         info['max'] = 4
-        info['speed'] = (0.75, 1.0)
+        info['speed'] = (0.85, 1.2)
+    elif score > 1500 and score <= 2000:
+        info['max'] = 4
+        info['speed'] = (0.9, 1.35)
     else:
         info['max'] = 5
-        info['speed'] = (0.75, 1.5)
+        info['speed'] = (0.95, 1.5)
     
     return info
 
